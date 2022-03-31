@@ -1,67 +1,77 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function JobBox({ job }) {
+  let location = useLocation();
   return (
-    <Grid item xs={12} sm={8} md={5}>
-      <Box
+    <Box
+      style={{
+        backgroundColor: "purple",
+        margin: "10px",
+        height: "300px",
+        display: "flex",
+        position: "relative",
+      }}
+    >
+      <Paper
+        elevation={3}
         style={{
-          backgroundColor: "purple",
-          margin: "10px",
-          height: "300px",
-          display: "flex",
-          position: "relative",
+          borderRadius: "15px",
         }}
       >
-        <Paper
-          elevation={4}
+        <div
           style={{
-            borderRadius: "15px",
+            padding: "10px",
           }}
         >
-          <div
+          <Typography variant="h6">{job.title}</Typography>
+          <Divider />
+          <Stack
             style={{
-              padding: "10px",
+              display: "flex",
+              flexWrap: "wrap",
+              margin: "8px 0 8px 0",
+            }}
+            direction="row"
+            spacing={1}
+          >
+            <Chip size="small" label={job.skills[0]} color="secondary" />
+            <Chip size="small" label={job.skills[1]} color="secondary" />
+            <Chip size="small" label={job.skills[2]} color="secondary" />
+          </Stack>
+          <Typography>{job.description}</Typography>
+          <Box
+            style={{
+              position: "absolute",
+              bottom: "0",
+              right: "0",
+              margin: "10px",
             }}
           >
-            <Typography variant="h6">{job.title}</Typography>
-            <Divider />
-            <Stack
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                margin: "8px 0 8px 0",
+            <NavLink
+              style={({ isActive }) => {
+                return {
+                  textDecoration: "none",
+                };
               }}
-              direction="row"
-              spacing={1}
-            >
-              <Chip size="small" label={job.skills[0]} color="secondary" />
-              <Chip size="small" label={job.skills[1]} color="secondary" />
-              <Chip size="small" label={job.skills[2]} color="secondary" />
-            </Stack>
-            <Typography variant="body">{job.description}</Typography>
-            <Box
-              style={{
-                position: "absolute",
-                bottom: "0",
-                right: "0",
-                margin: "10px",
-              }}
+              key={job.id}
+              to={`/job/${job.id}`}
+              state={{ backgroundLocation: location }}
             >
               <Button variant="outlined" color="secondary">
                 LEARN MORE
               </Button>
-            </Box>
-          </div>
-        </Paper>
-      </Box>
-    </Grid>
+            </NavLink>
+          </Box>
+        </div>
+      </Paper>
+    </Box>
   );
 }

@@ -4,7 +4,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-
 import InputBase from "@mui/material/InputBase";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,28 +55,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  // const [anchorEl, setAnchorEl] = React.useState(null);
+  let location = useLocation();
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  // const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  //   handleMobileMenuClose();
-  // };
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  // const menuId = "primary-search-account-menu";
-
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -96,15 +84,21 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem>
         <LoginIcon color="secondary" />
-        <Button color="inherit">Login</Button>
+        <NavLink
+          style={({ isActive }) => {
+            return {
+              textDecoration: "none",
+            };
+          }}
+          to="/form"
+          state={{ backgroundLocation: location }}
+        >
+          <Button color="inherit">Login</Button>
+        </NavLink>
       </MenuItem>
     </Menu>
   );
-  // const theme = createTheme({
-  //   palette: {
-  //     mode: "dark",
-  //   },
-  // });
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="secondary">
@@ -132,7 +126,17 @@ export default function PrimarySearchAppBar() {
           <Box>
             <MenuItem sx={{ display: { xs: "none", md: "flex" } }}>
               <LoginIcon color="secondary" />
-              <Button color="inherit">Login</Button>
+              <NavLink
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  borderRadius: "50%",
+                }}
+                state={{ backgroundLocation: location }}
+                to="/form"
+              >
+                <Button color="inherit">Log in</Button>
+              </NavLink>
             </MenuItem>
             <IconButton
               size="large"

@@ -1,45 +1,28 @@
 import React from "react";
-import SearchAppBar from "./components/SearchAppBar.js";
-import JobBox from "./components/JobBox";
-import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Pagination from "@mui/material/Pagination";
-import jobs from "./jobs.json";
+import { useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import FormPage from "./pages/FormPage";
+
+import NoMatchPage from "./pages/NoMatchPage";
+
 function App() {
-  const theme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-    typography: {
-      fontFamily: "'Work Sans', sans-serif",
-      fontWeight: 100,
-    },
-  });
+  let location = useLocation();
+  let state = location.state;
+  console.log(state);
+
   return (
     <div>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Paper style={{ height: "100vh" }} elevation={0}>
-          <SearchAppBar />
-          <div style={{ margin: "3rem" }}>
-            <Grid
-              container
-              spacing={3}
-              justifyContent="center"
-              alignItems="center"
-            >
-              {jobs.map((job) => (
-                <JobBox key={job.id} job={job} />
-              ))}
-            </Grid>
-            <Grid container justifyContent="center" alignItems="center">
-              <Pagination style={{ marginBottom: "2rem" }} count={3} />
-            </Grid>
-          </div>
-        </Paper>
-      </ThemeProvider>
+      <Routes location={state?.backgroundLocation || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="form" element={<FormPage />} />
+        <Route path="*" element={<NoMatchPage />} />
+      </Routes>
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route path="/form" element={<FormPage />} />
+        </Routes>
+      )}
     </div>
   );
 }
