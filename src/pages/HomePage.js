@@ -3,7 +3,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Outlet } from "react-router-dom";
 import JobGallery from "../components/JobGallery.js";
 import SearchAppBar from "../components/SearchAppBar.js";
 
@@ -34,7 +33,6 @@ function HomePage() {
           <Paper>
             <SearchAppBar />
             <JobGallery />
-            <Outlet />
           </Paper>
         </Box>
       </ThemeProvider>

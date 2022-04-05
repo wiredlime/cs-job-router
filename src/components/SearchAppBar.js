@@ -12,7 +12,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   let location = useLocation();
-
+  let auth = useAuth();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const handleMobileMenuClose = () => {
@@ -83,18 +84,19 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <LoginIcon color="secondary" />
-        <NavLink
-          style={({ isActive }) => {
-            return {
-              textDecoration: "none",
-            };
-          }}
-          to="/form"
-          state={{ backgroundLocation: location }}
-        >
-          <Button color="inherit">Login</Button>
-        </NavLink>
+        {!auth.user ? (
+          <Button
+            component={Link}
+            to="/form"
+            state={{ backgroundLocation: location }}
+            color="inherit"
+          >
+            <LoginIcon color="secondary" />
+            Login
+          </Button>
+        ) : (
+          <Button>{auth.user}</Button>
+        )}
       </MenuItem>
     </Menu>
   );
@@ -124,20 +126,28 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            <MenuItem sx={{ display: { xs: "none", md: "flex" } }}>
-              <LoginIcon color="secondary" />
-              <NavLink
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  borderRadius: "50%",
-                }}
-                state={{ backgroundLocation: location }}
-                to="/form"
-              >
-                <Button color="inherit">Log in</Button>
-              </NavLink>
+            <MenuItem
+              component={Box}
+              sx={{ display: { xs: "none", md: "flex" } }}
+            >
+              {!auth.user ? (
+                <Button
+                  component={Link}
+                  to="/form"
+                  state={{ backgroundLocation: location }}
+                  color="inherit"
+                >
+                  <LoginIcon color="secondary" />
+                  Login
+                </Button>
+              ) : (
+                <>
+                  <Button>{auth.user}</Button>
+                  <Button onClick={auth.signout}>Logout</Button>
+                </>
+              )}
             </MenuItem>
+
             <IconButton
               size="large"
               aria-label="show more"

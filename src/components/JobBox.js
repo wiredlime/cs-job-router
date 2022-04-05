@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/material";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 export default function JobBox({ job }) {
   let location = useLocation();
@@ -55,20 +55,15 @@ export default function JobBox({ job }) {
               margin: "10px",
             }}
           >
-            <NavLink
-              style={({ isActive }) => {
-                return {
-                  textDecoration: "none",
-                };
-              }}
-              key={job.id}
+            <Button
+              component={Link}
               to={`/job/${job.id}`}
+              variant="outlined"
+              color="secondary"
               state={{ backgroundLocation: location }}
             >
-              <Button variant="outlined" color="secondary">
-                LEARN MORE
-              </Button>
-            </NavLink>
+              LEARN MORE
+            </Button>
           </Box>
         </div>
       </Paper>
