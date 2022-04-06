@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/material";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function JobBox({ job }) {
   let location = useLocation();

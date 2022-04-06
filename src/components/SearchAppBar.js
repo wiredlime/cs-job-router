@@ -14,7 +14,6 @@ import Button from "@mui/material/Button";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { useSearch } from "../contexts/SearchContext";
 import { useSearchParams } from "react-router-dom";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
