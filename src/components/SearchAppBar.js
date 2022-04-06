@@ -15,7 +15,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useSearch } from "../contexts/SearchContext";
-
+import { useSearchParams } from "react-router-dom";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -57,7 +57,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  let search = useSearch();
+  // let search = useSearch();
+  let [searchParams, setSearchParams] = useSearchParams();
   let [inputValue, setInputValue] = useState();
 
   let navigate = useNavigate();
@@ -111,9 +112,9 @@ export default function PrimarySearchAppBar() {
     e.preventDefault();
     console.log("submitted job", inputValue);
     if (inputValue) {
-      search.setSearchParams({ q: inputValue });
+      setSearchParams({ q: inputValue });
     } else {
-      search.setSearchParams({});
+      setSearchParams({});
     }
     navigate(`/search?q=${inputValue}`);
   }
@@ -139,7 +140,7 @@ export default function PrimarySearchAppBar() {
               </SearchIconWrapper>
 
               <StyledInputBase
-                value={search.searchParams.get("job")}
+                value={searchParams.get("job")}
                 // onChange={(e) => {
                 //   jobsearch = e.target.value;
                 //   // let job = e.target.value;

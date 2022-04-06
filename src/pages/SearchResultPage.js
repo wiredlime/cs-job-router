@@ -7,10 +7,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import SearchAppBar from "../components/SearchAppBar.js";
-import { useSearch } from "../contexts/SearchContext";
+import { useSearchParams } from "react-router-dom";
+// import { useSearch } from "../contexts/SearchContext";
 
 function SearchResultPage() {
-  let search = useSearch();
+  // let search = useSearch();
+  let [searchParams, setSearchParams] = useSearchParams();
   const theme = createTheme({
     palette: {
       mode: "dark",
@@ -45,7 +47,7 @@ function SearchResultPage() {
             >
               {jobs
                 .filter((job) => {
-                  let filter = search.searchParams.get("q");
+                  let filter = searchParams.get("q");
                   console.log("search filter", filter);
                   if (!filter) return true;
                   console.log("filter job", job);
