@@ -30,7 +30,7 @@ export default function JobGallery() {
         alignItems="center"
       >
         {pagin.map((job) => (
-          <Grid item key={job.id} xs={12} sm={8} md={4}>
+          <Grid item key={job.id} xs={12} sm={10} md={6}>
             <JobBox job={job} />
           </Grid>
         ))}
@@ -45,14 +45,3 @@ export default function JobGallery() {
     </div>
   );
 }
-// function JobList(pagin) {
-//   return (
-//     <div>
-//       {pagin.map((job) => (
-//         <Grid item key={job.id} xs={12} sm={8} md={5}>
-//           <JobBox job={job} />
-//         </Grid>
-//       ))}
-//     </div>
-//   );
-// }

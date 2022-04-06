@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -12,8 +12,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useSearch } from "../contexts/SearchContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,6 +57,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  let search = useSearch();
+  let [inputValue, setInputValue] = useState();
+
+  let navigate = useNavigate();
+
+  //---------
   let location = useLocation();
   let auth = useAuth();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -100,7 +107,16 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
     </Menu>
   );
-
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("submitted job", inputValue);
+    if (inputValue) {
+      search.setSearchParams({ q: inputValue });
+    } else {
+      search.setSearchParams({});
+    }
+    navigate(`/search?q=${inputValue}`);
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="secondary">
@@ -116,13 +132,30 @@ export default function PrimarySearchAppBar() {
           </IconButton>
 
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon color="secondary" />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
+            <form onSubmit={(e) => handleSubmit(e)}>
+              {/* <form> */}
+              <SearchIconWrapper>
+                <SearchIcon type="submit" color="secondary" />
+              </SearchIconWrapper>
+
+              <StyledInputBase
+                value={search.searchParams.get("job")}
+                // onChange={(e) => {
+                //   jobsearch = e.target.value;
+                //   // let job = e.target.value;
+                //   // if (job) {
+                //   //   search.setSearchParams({ job });
+                //   // } else {
+                //   //   search.setSearchParams({});
+                //   // }
+                // }}--> this is for front-end search
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                }}
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </form>
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box>

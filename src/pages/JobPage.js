@@ -1,6 +1,6 @@
 import React from "react";
 import jobs from "../jobs.json";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 // import JobBox from "../components/JobBox";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
@@ -9,8 +9,8 @@ import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/material";
 function JobPage() {
-  let location = useLocation();
   let { id } = useParams();
+  console.log("usueparam", id);
   const job = jobs.find((job) => job.id === id);
 
   let navigate = useNavigate();

@@ -6,7 +6,8 @@ import NoMatchPage from "./pages/NoMatchPage";
 import JobPage from "./pages/JobPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
-
+import { SearchProvider } from "./contexts/SearchContext";
+import SearchResultPage from "./pages/SearchResultPage";
 function App() {
   let location = useLocation();
   let state = location.state;
@@ -34,7 +35,6 @@ function App() {
   function RequireAuth({ children }) {
     let auth = useAuth();
     if (!auth.user) {
-      console.log("RequireAuth location", location);
       // Redirect them to the /login page, but save the current location they were
       // trying to go to when they were redirected. This allows us to send them
       // along to that page after they login, which is a nicer user experience
@@ -45,25 +45,28 @@ function App() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <Routes location={state?.backgroundLocation || location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/form" element={<HomePage />} />
-          <Route path="job/:id" element={<HomePage />} />
-          <Route path="*" element={<NoMatchPage />} />
-        </Routes>
-        <Routes>
-          <Route path="/form" element={<FormPage />} />
-          <Route
-            path="/job/:id"
-            element={
-              <RequireAuth>
-                <JobPage />
-              </RequireAuth>
-            }
-          />
-        </Routes>
-      </AuthProvider>
+      <SearchProvider>
+        <AuthProvider>
+          <Routes location={state?.backgroundLocation || location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="form" element={<HomePage />} />
+            <Route path="job/:id" element={<HomePage />} />
+            <Route path="search" element={<SearchResultPage />} />
+            <Route path="*" element={<NoMatchPage />} />
+          </Routes>
+          <Routes>
+            <Route path="form" element={<FormPage />} />
+            <Route
+              path="job/:id"
+              element={
+                <RequireAuth>
+                  <JobPage />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </AuthProvider>
+      </SearchProvider>
     </ThemeProvider>
   );
 }
